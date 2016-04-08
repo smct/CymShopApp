@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 自定义 toolBar的属性
+    Edite这个控件是否展示  通过自定地属性
+    在代码中拿到属性  进行判断
+    -->
+    <declare-styleable name="MyToolBar">
+        <attr name="rightButtonIcon" format="reference" />
+        <attr name="isShowSearchViw" format="boolean" />
+    </declare-styleable>
+
+    <!-- 自定义加减控件的属性-->
+    <declare-styleable name="NumberAddSubView">
+        <attr name="values" format="integer|reference" />
+        <attr name="minValue" format="integer|reference" />
+        <attr name="maxValue" format="integer|reference" />
+        <attr name="btnAddBackground" format="reference" />
+        <attr name="btnSubBackground" format="reference" />
+        <attr name="textBackground" format="reference" />
+
+
+    </declare-styleable>
+</resources>
