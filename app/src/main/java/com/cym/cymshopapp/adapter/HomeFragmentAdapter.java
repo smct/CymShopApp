@@ -1,5 +1,8 @@
 package com.cym.cymshopapp.adapter;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -90,7 +93,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<HomeFragmentAdapte
 
         @Override
         public void onClick(View v) {
-            HomeCampaign  homeCampaign=mList.get(getLayoutPosition());
+          /*  HomeCampaign  homeCampaign=mList.get(getLayoutPosition());
             switch (v.getId()) {
                 case R.id.imgview_big:
                     if (onCampaigItemClick!=null) {
@@ -107,12 +110,45 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<HomeFragmentAdapte
                         onCampaigItemClick.onItenClick(v,homeCampaign.getCpThre());
                     }
                     break;
+            }
+        }*/
+            if (onCampaigItemClick!=null) {
+                anim(v);
+                //执行一个翻转的动画
+            }
 
+    }
+    private  void anim(final View v){
 
+        ObjectAnimator animator =  ObjectAnimator.ofFloat(v, "rotationX", 0.0F, 360.0F)
+                .setDuration(200);
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+                HomeCampaign campaign = mList.get(getLayoutPosition());
+
+                switch (v.getId()){
+
+                    case  R.id.imgview_big:
+                        onCampaigItemClick.onItenClick(v, campaign.getCpOne());
+                        break;
+
+                    case  R.id.imgview_small_top:
+                        onCampaigItemClick.onItenClick(v, campaign.getCpTwo());
+                        break;
+
+                    case R.id.imgview_small_bottom:
+                        onCampaigItemClick.onItenClick(v, campaign.getCpThre());
+                        break;
+
+                }
 
             }
-        }
+        });
+        animator.start();
     }
+}
 
     public interface OnCampaigItemClick {
         public void onItenClick(View view, Campaign campaign);

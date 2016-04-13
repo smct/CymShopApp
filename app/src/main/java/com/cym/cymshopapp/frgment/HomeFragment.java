@@ -1,5 +1,6 @@
 package com.cym.cymshopapp.frgment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.cym.cymshopapp.Contant;
 import com.cym.cymshopapp.R;
+import com.cym.cymshopapp.WareListActivity;
 import com.cym.cymshopapp.adapter.HomeFragmentAdapter;
 import com.cym.cymshopapp.adapter.decortion.DividerItemDecortion;
 import com.cym.cymshopapp.bean.Banner;
@@ -64,9 +66,9 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         //  RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.w);
         mSliderLayout = (SliderLayout) view.findViewById(R.id.slider);
-   //   requestImage();
-        // initSlier();
-     //  initRecyclerView(view);
+     requestImage();
+      //   initSlier();
+      initRecyclerView(view);
         return view;
     }
 
@@ -111,6 +113,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItenClick(View view, Campaign campaign) {
                 Toast.makeText(getActivity(),campaign.getTitle(),0).show();
+                Intent intent =new Intent(getActivity(), WareListActivity.class);
+                intent.putExtra(Contant.COMPAINGAIN_ID,campaign.getId());
+                        startActivity(intent);
             }
         });
     }

@@ -24,6 +24,8 @@ import com.cym.cymshopapp.bean.Page;
 import com.cym.cymshopapp.bean.Wares;
 import com.cym.cymshopapp.http.OkHttpHelper;
 import com.cym.cymshopapp.http.SpotsCallBack;
+import com.cym.cymshopapp.utils.Pager;
+import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.squareup.okhttp.Response;
 
@@ -56,10 +58,44 @@ public class HotFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_hot, container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         mRefreshLayout = (MaterialRefreshLayout) view.findViewById(R.id.refresh_view);
-        //     com.lidroid.xutils.ViewUtils.inject(view);
+        com.lidroid.xutils.ViewUtils.inject(view);
 
-        getDate();
-        initRereshLayout();
+       /* getDate();
+        initRereshLayout();*/
+//  ------->>>>封装之后的请求数据
+        Pager  pager=Pager.newBuilder().setUrl( Contant.API.WARES_HOT).setLoadMore(true).setOnPageListener(new Pager.OnPageListener() {
+            @Override
+            public void load(List datas, int totalPage, int totalCount) {
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                mRecyclerView.addItemDecoration(new DividerItemDecortion(getActivity(), 1));
+                hotFragmentAdapter = new HWAdapter(datas,getContext());
+                mRecyclerView.setAdapter(hotFragmentAdapter);
+                hotFragmentAdapter.setOnitemsClickListner(new BaseAdapter.OnitemsClickListner() {
+                    @Override
+                    public void OnClick(View v, int positon) {
+                        Toast.makeText(getContext(),"我被点击了"+positon,0).show();;
+                    }
+                });
+            }
+
+            @Override
+            public void refresh(List datas, int totalPage, int totalCount) {
+                hotFragmentAdapter.clearData();
+                hotFragmentAdapter.addData(mPageWares);
+                mRecyclerView.scrollToPosition(0);
+                //    mRefreshLayout.finishRefresh();
+            }
+
+            @Override
+            public void loadMore(List datas, int totalPage, int totalCount) {
+                hotFragmentAdapter.addData(hotFragmentAdapter.getDatas().size(), mPageWares);
+                mRecyclerView.scrollToPosition(hotFragmentAdapter.getDatas().size());
+                //mRefreshLayout.finishRefreshLoadMore();
+            }
+        }).setPageSize(20).setRefreshLayout(mRefreshLayout).build(getContext(),new TypeToken<Page<Wares>>(){}.getType());
+        pager.request();
+
+
         return view;
     }
 
@@ -132,7 +168,7 @@ public class HotFragment extends Fragment {
                 mRecyclerView.addItemDecoration(new DividerItemDecortion(getActivity(), 1));
                 hotFragmentAdapter = new HotFragmentAdapter(getContext(), mPageWares);
                 mRecyclerView.setAdapter(hotFragmentAdapter);*/
-             mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 mRecyclerView.addItemDecoration(new DividerItemDecortion(getActivity(), 1));
                 hotFragmentAdapter = new HWAdapter(mPageWares,getContext());
                 mRecyclerView.setAdapter(hotFragmentAdapter);

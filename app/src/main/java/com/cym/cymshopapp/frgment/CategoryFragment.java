@@ -1,5 +1,6 @@
 package com.cym.cymshopapp.frgment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,9 +17,9 @@ import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
 import com.cym.cymshopapp.Contant;
 import com.cym.cymshopapp.R;
+import com.cym.cymshopapp.WareDetailActivity;
 import com.cym.cymshopapp.adapter.BaseAdapter;
 import com.cym.cymshopapp.adapter.CategoryAdapter;
-import com.cym.cymshopapp.adapter.HWAdapter;
 import com.cym.cymshopapp.adapter.WaresAdapter;
 import com.cym.cymshopapp.adapter.decortion.DividerGridItemDecoration;
 import com.cym.cymshopapp.adapter.decortion.DividerItemDecortion;
@@ -33,7 +34,6 @@ import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.squareup.okhttp.Request;
@@ -75,9 +75,9 @@ public class CategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_category, container, false);
         ViewUtils.inject(this, view);
-     /*   requestCategoryData();
+        requestCategoryData();
         requestBannerData();
-        initRereshLayout();*/
+        initRereshLayout();
         return view;
     }
 
@@ -117,7 +117,8 @@ public class CategoryFragment extends Fragment {
                 curpage=1;
                 state=STATE_MORE;
                 requestWares(categoryId);
-                Log.i("categoryId被點擊了",categoryId+"");
+                Log.i("categoryId被點擊了", categoryId + "");
+
             }
         });
     }
@@ -196,7 +197,7 @@ public class CategoryFragment extends Fragment {
         });
     }
 
-    private void showWaresDate(List<Wares> mWares) {
+    private void showWaresDate(final List<Wares> mWares) {
         //判断状态
         switch (state) {
             case STATE_NORMAL:
@@ -204,6 +205,19 @@ public class CategoryFragment extends Fragment {
                 if (mWaresAdapter==null) {
                     mRecyclerView_wares.addItemDecoration(new DividerGridItemDecoration(getContext()));
                     mWaresAdapter = new WaresAdapter(mWares, getContext());
+
+
+                    mWaresAdapter.setOnitemsClickListner(new BaseAdapter.OnitemsClickListner() {
+                        @Override
+                        public void OnClick(View v, int positon) {
+                            Toast.makeText(getContext(), "我被点击了" + positon, 0).show();
+                            Wares wares = mWaresAdapter.getItem(positon);
+                            Intent intent=new Intent(getActivity(), WareDetailActivity.class);
+                            intent.putExtra(Contant.WARE,wares);
+                            startActivity(intent);
+
+                        }
+                    });
                     mRecyclerView_wares.setAdapter(mWaresAdapter);
                     mRecyclerView_wares.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
@@ -211,13 +225,7 @@ public class CategoryFragment extends Fragment {
                     mWaresAdapter.clearData();
                     mWaresAdapter.addData(mWares);
                 }
-                mWaresAdapter.setOnitemsClickListner(new BaseAdapter.OnitemsClickListner() {
-                    @Override
-                    public void OnClick(View v, int positon) {
-                        Toast.makeText(getContext(), "我被点击了" + positon, 0).show();
 
-                    }
-                });
                 break;
 
             case STATE_REGRESH:

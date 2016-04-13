@@ -1,5 +1,23 @@
 package com.cym.cymshopapp.utils;
 
+import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.cjj.MaterialRefreshLayout;
+import com.cjj.MaterialRefreshListener;
+import com.cym.cymshopapp.bean.Page;
+import com.cym.cymshopapp.http.OkHttpHelper;
+import com.cym.cymshopapp.http.SpotsCallBack;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
 /**
  * Created by <a href="http://www.cniao5.com">菜鸟窝</a>
  * 一个专业的Android开发在线教育平台
@@ -7,7 +25,6 @@ package com.cym.cymshopapp.utils;
 public class Pager {
 
 
-/*
     private static Builder builder;
 
 
@@ -23,7 +40,7 @@ public class Pager {
 
 
 
-    private  Pager(){
+    private Pager(){
 
         httpHelper = OkHttpHelper.getInstance();
         initRefreshLayout();
@@ -78,11 +95,9 @@ public class Pager {
         });
     }
 
-    */
-/**
+    /**
      * 请求数据
-     *//*
-
+     */
     private void requestData(){
 
 
@@ -93,11 +108,9 @@ public class Pager {
 
     }
 
-    */
-/**
+    /**
      * 显示数据
-     *//*
-
+     */
     private <T> void showData(List<T> datas,int totalPage,int totalCount){
 
 
@@ -130,11 +143,9 @@ public class Pager {
         }
     }
 
-    */
-/**
+    /**
      * 刷新数据
-     *//*
-
+     */
     private void refresh(){
 
         state=STATE_REFREH;
@@ -142,11 +153,9 @@ public class Pager {
         requestData();
     }
 
-    */
-/**
+    /**
      * 隐藏数据
-     *//*
-
+     */
     private void loadMore(){
 
         state=STATE_MORE;
@@ -155,12 +164,10 @@ public class Pager {
     }
 
 
-    */
-/**
+    /**
      * 构建URL
      * @return
-     *//*
-
+     */
     private String buildUrl(){
 
         return builder.mUrl +"?"+buildUrlParams();
@@ -190,11 +197,9 @@ public class Pager {
 
 
 
-    */
-/**
+    /**
      *
-     *//*
-
+     */
     public static class Builder{
 
 
@@ -293,7 +298,7 @@ public class Pager {
         @Override
         public void onFailure(Request request, Exception e) {
 
-            dismissDialog();
+            dismissDailog();
             Toast.makeText(builder.mContext,"请求出错："+e.getMessage(),Toast.LENGTH_LONG).show();
 
             if(STATE_REFREH==state)   {
@@ -351,6 +356,5 @@ public class Pager {
 
 
     }
-*/
 
 }
