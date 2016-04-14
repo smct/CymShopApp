@@ -22,7 +22,6 @@ public class Contant {
         public static final String WARES_DETAIL = BASE_URL + "wares/detail.html";
         public static final String CATEGORY_LIST = BASE_URL + "category/list";
         public static final String LOGIN = BASE_URL + "auth/login";
-          String  s="";
-        String   sss="ee";
+
     }
 }
