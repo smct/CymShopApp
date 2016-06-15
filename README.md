@@ -45,3 +45,9 @@ Android开发技术周报	AndroidWeekly中国版
 码农周刊	文章、咨询周报
 好东西传送门	各领域技术文章的日报
 https://github.com/hehonghui/android-tech-frontier/tree/master/the-bad-guys  网址
+
+
+
+
+https://github.com/Jensenczx/TimLiu-Android
+总结了各种项目和动画
